@@ -866,20 +866,23 @@
             }
         });
     </script>
-
-    <!-- ============================================================
-         SALESFORCE EMBEDDED SERVICE PLACEHOLDER
-
-         Add your Salesforce Embedded Service snippet below.
-         The snippet should be placed here, just before the closing </body> tag.
-
-         Example format:
-         <script type="text/javascript">
-             // Your Salesforce Embedded Service configuration
-             // embedded_svc.settings.displayHelpButton = true;
-             // etc.
-         </script>
-         ============================================================ -->
-
+    <script type='text/javascript'>
+    function initEmbeddedMessaging() {
+        try {
+            embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+            embeddedservice_bootstrap.init(
+                '00DWA000004eBKD',
+                'HomeAdvisor',
+                'https://orgfarm-47f75e903d--dev.sandbox.my.site.com/ESWHomeAdvisor1764726403933',
+                {
+                    scrt2URL: 'https://orgfarm-47f75e903d--dev.sandbox.my.salesforce-scrt.com'
+                }
+            );
+        } catch (err) {
+            console.error('Error loading Embedded Messaging: ', err);
+        }
+    };
+    </script>
+    <script type='text/javascript' src='https://orgfarm-47f75e903d--dev.sandbox.my.site.com/ESWHomeAdvisor1764726403933/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 </body>
 </html>
