@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs | Home Advisor</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-cream: #FAF7F2;
+            --color-warm-white: #FFFEF9;
+            --color-charcoal: #2C2C2C;
+            --color-warm-gray: #6B6560;
+            --color-terracotta: #C4785A;
+            --color-terracotta-dark: #A85F42;
+            --color-sand: #E8E0D5;
+            --color-linen: #F5F0E8;
+
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Outfit', -apple-system, sans-serif;
+
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-cream);
+            color: var(--color-charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 40px rgba(0,0,0,0.04);
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--color-charcoal);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--color-warm-gray);
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--color-terracotta);
+            transition: width 0.3s var(--ease-smooth);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-charcoal);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 10rem 4rem 5rem;
+            text-align: center;
+            background: var(--color-warm-white);
+            position: relative;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -10%;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(ellipse, var(--color-sand) 0%, transparent 70%);
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-eyebrow {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-terracotta);
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 em {
+            font-style: italic;
+            color: var(--color-terracotta);
+        }
+
+        .page-description {
+            font-size: 1.1rem;
+            color: var(--color-warm-gray);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 4rem 8rem;
+            background: var(--color-cream);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+
+        .faq-category-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-terracotta);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--color-sand);
+        }
+
+        .faq-item {
+            background: var(--color-warm-white);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--color-linen);
+        }
+
+        .faq-question h3 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--color-charcoal);
+            margin: 0;
+            padding-right: 1rem;
+        }
+
+        .faq-toggle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--color-linen);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .faq-item.active .faq-toggle {
+            background: var(--color-terracotta);
+            transform: rotate(45deg);
+        }
+
+        .faq-toggle svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--color-warm-gray);
+            transition: stroke 0.3s;
+        }
+
+        .faq-item.active .faq-toggle svg {
+            stroke: var(--color-warm-white);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-smooth);
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem;
+            color: var(--color-warm-gray);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 4rem;
+            background: var(--color-charcoal);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 400;
+            color: var(--color-warm-white);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--color-terracotta);
+            color: var(--color-warm-white);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .cta-button:hover {
+            background: var(--color-terracotta-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(196, 120, 90, 0.4);
+        }
+
+        .cta-button svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 5rem 4rem 3rem;
+            background: var(--color-linen);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-brand h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            color: var(--color-warm-gray);
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: var(--color-charcoal);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            font-size: 0.9rem;
+            color: var(--color-warm-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-terracotta);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 4rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-sand);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--color-warm-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .page-header {
+                padding: 8rem 1.5rem 3rem;
+            }
+
+            .faq-section {
+                padding: 3rem 1.5rem 5rem;
+            }
+
+            .faq-question {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .faq-question h3 {
+                font-size: 1rem;
+            }
+
+            .faq-answer-content {
+                padding: 0 1.5rem 1.25rem;
+            }
+
+            .cta-section {
+                padding: 4rem 1.5rem;
+            }
+
+            footer {
+                padding: 3rem 1.5rem 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">Home Advisor</a>
+        <ul class="nav-links">
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#advisor">AI Advisor</a></li>
+            <li><a href="faq.html" class="active">FAQs</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-content">
+            <span class="page-eyebrow">Customer Support</span>
+            <h1>Frequently Asked <em>Questions</em></h1>
+            <p class="page-description">Find answers to common questions about shipping, returns, warranties, and more. Can't find what you're looking for? Our AI Home Advisor is available 24/7.</p>
+        </div>
+    </header>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+
+            <!-- Shipping & Delivery -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">Shipping & Delivery</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What are your delivery options and timeframes?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We offer several delivery options to fit your needs. Standard delivery arrives in 5-7 business days and includes curbside drop-off. Our White Glove delivery service includes room-of-choice placement and professional assembly, typically scheduled within 2-3 weeks depending on your location. For larger items like sofas and beds, White Glove is often required. Delivery is free on orders over $999.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you offer assembly services?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! Our White Glove delivery service includes professional assembly at no extra charge. Our trained technicians will assemble your furniture, place it in your desired location, and remove all packaging materials. For items already delivered via standard shipping, you can schedule standalone assembly service for a flat fee of $99 per item. Assembly appointments are typically available within 3-5 business days.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Returns & Warranty -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">Returns & Warranty</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is your return policy?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We offer a 30-day return window on most items, giving you time to ensure your furniture is the perfect fit. Products must be in original condition with all packaging and tags intact. Custom orders, clearance items, and mattresses have modified return policies due to their personalized nature. Return shipping is free for defective items; a $99 pickup fee applies for other returns. Refunds are processed within 5-7 business days after we receive the item.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is your warranty policy?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            All furniture comes with a comprehensive 1-year warranty covering manufacturing defects and craftsmanship issues. Frames and foundations on upholstered pieces are covered for 5 years, reflecting our confidence in their durability. Outdoor furniture includes a 3-year warranty against rust and weather damage when properly maintained. Warranty claims can be filed through your account or by contacting our support team. We'll either repair, replace, or refund based on the situation.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products & Availability -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">Products & Availability</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I check if an item is in stock?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Real-time availability is displayed on each product page, showing current stock levels and estimated delivery windows. If an item is temporarily out of stock, you can sign up for email notifications to be alerted when it becomes available again. Many items also show estimated restock dates so you can plan accordingly. Our AI Home Advisor can also check availability across our entire catalog instantly.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I order fabric swatches before purchasing?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Absolutely! We offer free fabric swatches for any upholstered furniture so you can see and feel the material in your own space. Order up to 5 swatches at a time with free standard shipping. Swatches typically arrive within 3-5 business days. Each swatch includes care instructions and fabric composition details. This helps ensure the color and texture match your existing decor before committing to a purchase.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Design Services -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">Design Services</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you offer interior design consultations?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes, we provide complimentary design consultations to help you create your perfect space! Choose from virtual consultations via video call, in-store appointments with our design specialists, or submit photos for personalized room planning recommendations. Our designers can help with everything from selecting individual pieces to planning entire room layouts. Sessions typically last 30-45 minutes and include a personalized shopping list tailored to your style and budget.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I visualize furniture in my space before buying?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Our AR Room Visualizer lets you see furniture in your actual space using your smartphone camera. Simply point your phone where you want to place the item, and you'll see a true-to-scale 3D model. You can also use our digital Mood Board tool to create custom room layouts, save your favorite pieces, and share designs with family or friends. Both tools are free and available on our website and mobile app.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders & Payment -->
+            <div class="faq-category">
+                <h2 class="faq-category-title">Orders & Payment</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How can I track my order?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Once your order ships, you'll receive a tracking link via email and SMS. You can also view real-time order status in your account dashboard, including detailed delivery window estimates and driver location on delivery day. For White Glove deliveries, you'll receive a call 24 hours before to confirm your delivery window. Our AI Home Advisor can also provide instant order status updates anytime.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What payment options do you offer?</h3>
+                        <div class="faq-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We accept all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, Apple Pay, and Google Pay for your convenience. Financing is available through Affirm with 0% APR for 12 months on purchases over $500, subject to credit approval. Business accounts can apply for net-30 payment terms. Gift cards are also available and can be combined with other payment methods.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Still have questions?</h2>
+            <p>Our AI Home Advisor is available 24/7 to help with product questions, order status, design advice, and more.</p>
+            <a href="index.html#advisor" class="cta-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                </svg>
+                Chat with Home Advisor
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Home Advisor</h3>
+                <p>Blending design inspiration with customer convenience since 2024. Your trusted partner in creating beautiful living spaces.</p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">Living Room</a></li>
+                    <li><a href="#">Bedroom</a></li>
+                    <li><a href="#">Dining</a></li>
+                    <li><a href="#">Outdoor</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Home Advisor. All rights reserved.</p>
+            <p>A Capstone Demo Project</p>
+        </div>
+    </footer>
+
+    <!-- Accordion JavaScript -->
+    <script>
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                // Toggle current item
+                faqItem.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
