@@ -2426,25 +2426,43 @@
 
         // Launch chat with product context (sets hidden pre-chat variables)
         function launchChatWithProduct(productId, productName) {
+            console.log('=== launchChatWithProduct called ===');
+            console.log('Product ID:', productId);
+            console.log('Product Name:', productName);
+
             try {
                 if (typeof embeddedservice_bootstrap !== 'undefined') {
+                    console.log('embeddedservice_bootstrap is available');
+                    console.log('prechatAPI available:', !!embeddedservice_bootstrap.prechatAPI);
+                    console.log('utilAPI available:', !!embeddedservice_bootstrap.utilAPI);
+
                     // Set hidden pre-chat fields for product context
                     if (embeddedservice_bootstrap.prechatAPI) {
-                        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                        const prechatData = {
                             'ProductId': productId,
                             'ProductName': productName
-                        });
+                        };
+                        console.log('Setting hidden pre-chat fields:', prechatData);
+                        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields(prechatData);
+                        console.log('setHiddenPrechatFields called successfully');
+                    } else {
+                        console.warn('prechatAPI is not available');
                     }
 
                     // Launch the chat
                     if (embeddedservice_bootstrap.utilAPI) {
+                        console.log('Launching chat...');
                         embeddedservice_bootstrap.utilAPI.launchChat();
+                        console.log('launchChat called successfully');
+                    } else {
+                        console.warn('utilAPI is not available');
                     }
                 } else {
-                    console.warn('Chat not ready yet. Please try again in a moment.');
+                    console.warn('Chat not ready yet - embeddedservice_bootstrap is undefined');
                 }
             } catch (err) {
                 console.error('Error launching chat with product context:', err);
+                console.error('Error details:', err.message, err.stack);
             }
         }
 
