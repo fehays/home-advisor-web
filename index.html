@@ -1063,6 +1063,13 @@
             padding: 1.5rem;
             background: var(--color-linen);
             border-radius: 12px;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .help-section:hover {
+            background: var(--color-sand);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
         .help-icon {
@@ -2094,7 +2101,7 @@
                                 </div>
 
                                 <!-- Help Section -->
-                                <div class="help-section">
+                                <div class="help-section" style="cursor: pointer;" onclick="launchChatWithProduct('${product.id}', '${product.name.replace(/'/g, "\\'")}')">
                                     <div class="help-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
@@ -2102,7 +2109,7 @@
                                     </div>
                                     <div class="help-text">
                                         <h4>Need help with this product?</h4>
-                                        <p>Our <a href="#/home" onclick="handleSectionScroll('advisor-section'); return false;">AI Home Advisor</a> can answer questions about dimensions, materials, styling tips, and more.</p>
+                                        <p>Click here to chat with our <strong>AI Home Advisor</strong> about dimensions, materials, styling tips, and more.</p>
                                     </div>
                                 </div>
                             </div>
@@ -2414,6 +2421,30 @@
                 }
             } catch (err) {
                 console.error('Error launching chat:', err);
+            }
+        }
+
+        // Launch chat with product context (sets hidden pre-chat variables)
+        function launchChatWithProduct(productId, productName) {
+            try {
+                if (typeof embeddedservice_bootstrap !== 'undefined') {
+                    // Set hidden pre-chat fields for product context
+                    if (embeddedservice_bootstrap.prechatAPI) {
+                        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                            'ProductId': productId,
+                            'ProductName': productName
+                        });
+                    }
+
+                    // Launch the chat
+                    if (embeddedservice_bootstrap.utilAPI) {
+                        embeddedservice_bootstrap.utilAPI.launchChat();
+                    }
+                } else {
+                    console.warn('Chat not ready yet. Please try again in a moment.');
+                }
+            } catch (err) {
+                console.error('Error launching chat with product context:', err);
             }
         }
 
