@@ -20,6 +20,7 @@
             --color-terracotta-dark: #A85F42;
             --color-sand: #E8E0D5;
             --color-linen: #F5F0E8;
+            --color-green: #4A7C59;
 
             --font-display: 'Cormorant Garamond', Georgia, serif;
             --font-body: 'Outfit', -apple-system, sans-serif;
@@ -123,11 +124,13 @@
             transition: width 0.3s var(--ease-smooth);
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--color-charcoal);
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
             width: 100%;
         }
 
@@ -541,6 +544,721 @@
             opacity: 0.7;
         }
 
+        /* Page Header (for Products, FAQ) */
+        .page-header {
+            padding: 10rem 4rem 4rem;
+            text-align: center;
+            background: var(--color-warm-white);
+            position: relative;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -10%;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(ellipse, var(--color-sand) 0%, transparent 70%);
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-eyebrow {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-terracotta);
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 em {
+            font-style: italic;
+            color: var(--color-terracotta);
+        }
+
+        .page-description {
+            font-size: 1.1rem;
+            color: var(--color-warm-gray);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Filters Section (Products) */
+        .filters-section {
+            padding: 2rem 4rem;
+            background: var(--color-warm-white);
+            border-bottom: 1px solid var(--color-sand);
+            position: sticky;
+            top: 76px;
+            z-index: 50;
+        }
+
+        .filters-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-warm-gray);
+            margin-right: 0.5rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            background: var(--color-cream);
+            color: var(--color-warm-gray);
+            border: 1px solid var(--color-sand);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .filter-btn:hover {
+            background: var(--color-linen);
+            color: var(--color-charcoal);
+        }
+
+        .filter-btn.active {
+            background: var(--color-charcoal);
+            color: var(--color-warm-white);
+            border-color: var(--color-charcoal);
+        }
+
+        .results-count {
+            margin-left: auto;
+            font-size: 0.85rem;
+            color: var(--color-warm-gray);
+        }
+
+        /* Products Grid */
+        .products-section {
+            padding: 4rem;
+            background: var(--color-cream);
+        }
+
+        .products-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: var(--color-warm-white);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-smooth);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background: var(--color-linen);
+            transition: transform 0.4s var(--ease-smooth);
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-image-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: 50px;
+        }
+
+        .product-badge.out-of-stock {
+            background: var(--color-charcoal);
+            color: var(--color-warm-white);
+        }
+
+        .product-badge.style-tag {
+            background: rgba(255,255,255,0.9);
+            color: var(--color-warm-gray);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-terracotta);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 0.75rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--color-warm-gray);
+        }
+
+        .product-rating svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--color-terracotta);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 7rem 4rem 1rem;
+            background: var(--color-warm-white);
+        }
+
+        .breadcrumb-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .breadcrumb a {
+            color: var(--color-warm-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--color-terracotta);
+        }
+
+        .breadcrumb span {
+            color: var(--color-warm-gray);
+        }
+
+        .breadcrumb-current {
+            color: var(--color-charcoal);
+            font-weight: 500;
+        }
+
+        /* Product Detail Section */
+        .product-detail-section {
+            padding: 2rem 4rem 6rem;
+            background: var(--color-warm-white);
+        }
+
+        .product-detail-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .product-detail-image-section {
+            position: sticky;
+            top: 100px;
+        }
+
+        .product-detail-main-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 20px;
+            background: var(--color-linen);
+        }
+
+        .product-detail-badges {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .product-detail-badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: 50px;
+            background: var(--color-warm-white);
+            color: var(--color-warm-gray);
+        }
+
+        .product-detail-badge.out-of-stock {
+            background: var(--color-charcoal);
+            color: var(--color-warm-white);
+        }
+
+        .product-details {
+            padding: 1rem 0;
+        }
+
+        .product-category-tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-terracotta);
+            margin-bottom: 0.75rem;
+        }
+
+        .product-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .product-rating-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--color-sand);
+        }
+
+        .product-stars {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .product-stars svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--color-terracotta);
+        }
+
+        .product-stars svg.empty {
+            fill: var(--color-sand);
+        }
+
+        .product-rating-text {
+            font-size: 0.9rem;
+            color: var(--color-warm-gray);
+        }
+
+        .product-price-section {
+            margin-bottom: 2rem;
+        }
+
+        .product-detail-price {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: var(--color-charcoal);
+        }
+
+        .product-sku {
+            font-size: 0.8rem;
+            color: var(--color-warm-gray);
+            margin-top: 0.5rem;
+        }
+
+        .product-description {
+            font-size: 1.05rem;
+            color: var(--color-warm-gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .stock-status.in-stock {
+            color: var(--color-green);
+        }
+
+        .stock-status.out-of-stock-status {
+            color: var(--color-terracotta-dark);
+        }
+
+        .stock-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .product-specs {
+            background: var(--color-cream);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .specs-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .spec-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-warm-gray);
+        }
+
+        .spec-value {
+            font-size: 0.95rem;
+            color: var(--color-charcoal);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 1.1rem 2rem;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background: var(--color-charcoal);
+            color: var(--color-warm-white);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--color-terracotta);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(196, 120, 90, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: var(--color-sand);
+            color: var(--color-warm-gray);
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            padding: 1.1rem 1.5rem;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            background: transparent;
+            color: var(--color-charcoal);
+            border: 1px solid var(--color-sand);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-charcoal);
+            background: var(--color-linen);
+        }
+
+        .btn-secondary svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .help-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--color-linen);
+            border-radius: 12px;
+        }
+
+        .help-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-terracotta);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .help-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-warm-white);
+        }
+
+        .help-text h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .help-text p {
+            font-size: 0.85rem;
+            color: var(--color-warm-gray);
+        }
+
+        .help-text a {
+            color: var(--color-terracotta);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .help-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* FAQ Styles */
+        .faq-section {
+            padding: 5rem 4rem 8rem;
+            background: var(--color-cream);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+
+        .faq-category-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-terracotta);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--color-sand);
+        }
+
+        .faq-item {
+            background: var(--color-warm-white);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--color-linen);
+        }
+
+        .faq-question h3 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--color-charcoal);
+            margin: 0;
+            padding-right: 1rem;
+        }
+
+        .faq-toggle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--color-linen);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .faq-item.active .faq-toggle {
+            background: var(--color-terracotta);
+            transform: rotate(45deg);
+        }
+
+        .faq-toggle svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--color-warm-gray);
+            transition: stroke 0.3s;
+        }
+
+        .faq-item.active .faq-toggle svg {
+            stroke: var(--color-warm-white);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-smooth);
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem;
+            color: var(--color-warm-gray);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 4rem;
+            background: var(--color-charcoal);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 400;
+            color: var(--color-warm-white);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--color-terracotta);
+            color: var(--color-warm-white);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .cta-button:hover {
+            background: var(--color-terracotta-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(196, 120, 90, 0.4);
+        }
+
+        .cta-button svg {
+            width: 18px;
+            height: 18px;
+        }
+
         /* Footer */
         footer {
             padding: 5rem 4rem 3rem;
@@ -609,6 +1327,60 @@
             color: var(--color-warm-gray);
         }
 
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 8rem 4rem;
+            color: var(--color-warm-gray);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--color-sand);
+            border-top-color: var(--color-terracotta);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Error State */
+        .error-message {
+            text-align: center;
+            padding: 8rem 4rem;
+        }
+
+        .error-message h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-message p {
+            color: var(--color-warm-gray);
+            margin-bottom: 2rem;
+        }
+
+        .error-message a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--color-charcoal);
+            color: var(--color-warm-white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .error-message a:hover {
+            background: var(--color-terracotta);
+        }
+
         /* Animations */
         @keyframes fadeUp {
             from {
@@ -643,7 +1415,17 @@
             }
         }
 
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Responsive */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         @media (max-width: 1024px) {
             .services-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -652,6 +1434,20 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 3rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .product-detail-image-section {
+                position: relative;
+                top: 0;
             }
 
             .footer-content {
@@ -700,6 +1496,74 @@
                 gap: 2rem;
             }
 
+            .page-header {
+                padding: 8rem 1.5rem 3rem;
+            }
+
+            .filters-section {
+                padding: 1.5rem;
+                top: 60px;
+            }
+
+            .filters-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .results-count {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+
+            .products-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .breadcrumb {
+                padding: 6rem 1.5rem 1rem;
+            }
+
+            .product-detail-section {
+                padding: 1.5rem 1.5rem 4rem;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .btn-secondary {
+                justify-content: center;
+            }
+
+            .faq-section {
+                padding: 3rem 1.5rem 5rem;
+            }
+
+            .faq-question {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .faq-question h3 {
+                font-size: 1rem;
+            }
+
+            .faq-answer-content {
+                padding: 0 1.5rem 1.25rem;
+            }
+
+            .cta-section {
+                padding: 4rem 1.5rem;
+            }
+
             footer {
                 padding: 3rem 1.5rem 2rem;
             }
@@ -720,134 +1584,20 @@
 <body>
     <!-- Navigation -->
     <nav id="nav">
-        <a href="#" class="logo">Home Advisor</a>
+        <a href="#/" class="logo">Home Advisor</a>
         <ul class="nav-links">
-            <li><a href="products.html">Shop</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#advisor">AI Advisor</a></li>
-            <li><a href="faq.html">FAQs</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#/products" data-nav="products">Shop</a></li>
+            <li><a href="#/home" data-nav="services">Services</a></li>
+            <li><a href="#/home" data-nav="advisor">AI Advisor</a></li>
+            <li><a href="#/faq" data-nav="faq">FAQs</a></li>
+            <li><a href="#/home" data-nav="contact">Contact</a></li>
         </ul>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <span class="hero-eyebrow">Introducing Your Personal Design Companion</span>
-        <h1>Where <em>Beautiful</em> Homes Begin</h1>
-        <p class="hero-tagline">Because your home deserves more than a FAQ page.</p>
-        <a href="#advisor" class="hero-cta">
-            Meet Your Advisor
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-        </a>
-        <div class="scroll-indicator">
-            <span>Scroll</span>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="section-header">
-            <span class="section-eyebrow">What We Offer</span>
-            <h2>Everything You Need to Create Your Dream Space</h2>
-        </div>
-
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                    </svg>
-                </div>
-                <h3>Product Discovery</h3>
-                <p>Explore our curated collection of furniture and décor. Get instant answers about dimensions, materials, availability, and styling suggestions.</p>
-            </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                    </svg>
-                </div>
-                <h3>Order Tracking</h3>
-                <p>Real-time updates on your orders. From warehouse to doorstep, know exactly where your pieces are and when they'll arrive.</p>
-            </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
-                    </svg>
-                </div>
-                <h3>Design Guidance</h3>
-                <p>Personalized styling advice tailored to your taste. Whether modern minimalist or classic elegance, we'll help you find your perfect aesthetic.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Advisor Section -->
-    <section class="advisor" id="advisor">
-        <div class="advisor-content">
-            <div class="advisor-badge">
-                <span>AI-Powered</span>
-            </div>
-            <h2>Meet Your <em>Personal</em> Home Advisor</h2>
-            <p class="advisor-description">
-                No more waiting on hold. No more generic responses. Our AI Home Advisor understands your style,
-                remembers your preferences, and provides instant, personalized guidance—available 24/7.
-                It's like having a design consultant in your pocket.
-            </p>
-            <div class="advisor-features">
-                <div class="advisor-feature">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>Instant Responses</span>
-                </div>
-                <div class="advisor-feature">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                    </svg>
-                    <span>Personalized Advice</span>
-                </div>
-                <div class="advisor-feature">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                    </svg>
-                    <span>Always Available</span>
-                </div>
-            </div>
-            <button onclick="launchChat()" class="advisor-cta">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
-                </svg>
-                Start a Conversation
-            </button>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <h3>90%</h3>
-                <p>Response Accuracy</p>
-            </div>
-            <div class="stat-item">
-                <h3>&lt;3s</h3>
-                <p>Average Response Time</p>
-            </div>
-            <div class="stat-item">
-                <h3>24/7</h3>
-                <p>Always Available</p>
-            </div>
-            <div class="stat-item">
-                <h3>50K+</h3>
-                <p>Products in Catalog</p>
-            </div>
-        </div>
-    </section>
+    <!-- Main Content Container -->
+    <main id="app">
+        <!-- Content loaded dynamically by router -->
+    </main>
 
     <!-- Footer -->
     <footer id="contact">
@@ -860,20 +1610,20 @@
             <div class="footer-links">
                 <h4>Shop</h4>
                 <ul>
-                    <li><a href="products.html?category=Living Room">Living Room</a></li>
-                    <li><a href="products.html?category=Bedroom">Bedroom</a></li>
-                    <li><a href="products.html?category=Dining">Dining</a></li>
-                    <li><a href="products.html?category=Outdoor">Outdoor</a></li>
+                    <li><a href="#/products?category=Living Room">Living Room</a></li>
+                    <li><a href="#/products?category=Bedroom">Bedroom</a></li>
+                    <li><a href="#/products?category=Dining">Dining</a></li>
+                    <li><a href="#/products?category=Outdoor">Outdoor</a></li>
                 </ul>
             </div>
 
             <div class="footer-links">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#/home" data-nav="contact">Contact Us</a></li>
                     <li><a href="#">Track Order</a></li>
                     <li><a href="#">Returns</a></li>
-                    <li><a href="faq.html">FAQs</a></li>
+                    <li><a href="#/faq">FAQs</a></li>
                 </ul>
             </div>
 
@@ -894,8 +1644,756 @@
         </div>
     </footer>
 
-    <!-- Navigation scroll effect -->
     <script>
+        // ==========================================
+        // SPA Router
+        // ==========================================
+        const API_URL = 'https://692f6ceb91e00bafccd78fb1.mockapi.io/api/v1/products';
+        let allProducts = [];
+
+        // Parse hash route
+        function parseHash() {
+            const hash = window.location.hash.slice(1) || '/';
+            const [path, queryString] = hash.split('?');
+            const params = new URLSearchParams(queryString || '');
+            return { path, params };
+        }
+
+        // Router
+        function handleRoute() {
+            const { path, params } = parseHash();
+            const app = document.getElementById('app');
+
+            // Update nav active state
+            updateNavActive(path);
+
+            // Route matching
+            if (path === '/' || path === '/home') {
+                renderHome();
+            } else if (path === '/products') {
+                renderProducts(params.get('category'));
+            } else if (path.startsWith('/product/')) {
+                const productId = path.split('/')[2];
+                renderProductDetail(productId);
+            } else if (path === '/faq') {
+                renderFAQ();
+            } else {
+                renderHome();
+            }
+
+            // Scroll to top on route change (unless navigating to section)
+            window.scrollTo(0, 0);
+        }
+
+        // Update navigation active state
+        function updateNavActive(path) {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href === '#' + path || (path === '/' && href === '#/')) {
+                    link.classList.add('active');
+                } else if (path === '/products' && href === '#/products') {
+                    link.classList.add('active');
+                } else if (path.startsWith('/product/') && href === '#/products') {
+                    link.classList.add('active');
+                } else if (path === '/faq' && href === '#/faq') {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Handle section scrolling for home page
+        function handleSectionScroll(sectionId) {
+            setTimeout(() => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
+
+        // ==========================================
+        // View Renderers
+        // ==========================================
+
+        // Render Home Page
+        function renderHome() {
+            document.title = 'Home Advisor | Because Your Home Deserves More Than a FAQ Page';
+            const app = document.getElementById('app');
+
+            app.innerHTML = `
+                <!-- Hero Section -->
+                <section class="hero">
+                    <span class="hero-eyebrow">Introducing Your Personal Design Companion</span>
+                    <h1>Where <em>Beautiful</em> Homes Begin</h1>
+                    <p class="hero-tagline">Because your home deserves more than a FAQ page.</p>
+                    <a href="#/home" onclick="handleSectionScroll('advisor-section'); return false;" class="hero-cta">
+                        Meet Your Advisor
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                    <div class="scroll-indicator">
+                        <span>Scroll</span>
+                    </div>
+                </section>
+
+                <!-- Services Section -->
+                <section class="services" id="services-section">
+                    <div class="section-header">
+                        <span class="section-eyebrow">What We Offer</span>
+                        <h2>Everything You Need to Create Your Dream Space</h2>
+                    </div>
+
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                </svg>
+                            </div>
+                            <h3>Product Discovery</h3>
+                            <p>Explore our curated collection of furniture and décor. Get instant answers about dimensions, materials, availability, and styling suggestions.</p>
+                        </div>
+
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                                </svg>
+                            </div>
+                            <h3>Order Tracking</h3>
+                            <p>Real-time updates on your orders. From warehouse to doorstep, know exactly where your pieces are and when they'll arrive.</p>
+                        </div>
+
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
+                                </svg>
+                            </div>
+                            <h3>Design Guidance</h3>
+                            <p>Personalized styling advice tailored to your taste. Whether modern minimalist or classic elegance, we'll help you find your perfect aesthetic.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI Advisor Section -->
+                <section class="advisor" id="advisor-section">
+                    <div class="advisor-content">
+                        <div class="advisor-badge">
+                            <span>AI-Powered</span>
+                        </div>
+                        <h2>Meet Your <em>Personal</em> Home Advisor</h2>
+                        <p class="advisor-description">
+                            No more waiting on hold. No more generic responses. Our AI Home Advisor understands your style,
+                            remembers your preferences, and provides instant, personalized guidance—available 24/7.
+                            It's like having a design consultant in your pocket.
+                        </p>
+                        <div class="advisor-features">
+                            <div class="advisor-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Instant Responses</span>
+                            </div>
+                            <div class="advisor-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                                <span>Personalized Advice</span>
+                            </div>
+                            <div class="advisor-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                                </svg>
+                                <span>Always Available</span>
+                            </div>
+                        </div>
+                        <button onclick="launchChat()" class="advisor-cta">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                            </svg>
+                            Start a Conversation
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Stats Section -->
+                <section class="stats">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <h3>90%</h3>
+                            <p>Response Accuracy</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>&lt;3s</h3>
+                            <p>Average Response Time</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>24/7</h3>
+                            <p>Always Available</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>50K+</h3>
+                            <p>Products in Catalog</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            // Check if we need to scroll to a section
+            const { params } = parseHash();
+            const scrollTo = params.get('section');
+            if (scrollTo) {
+                handleSectionScroll(scrollTo + '-section');
+            }
+        }
+
+        // Render Products Page
+        function renderProducts(category) {
+            document.title = 'Shop All Products | Home Advisor';
+            const app = document.getElementById('app');
+
+            app.innerHTML = `
+                <!-- Page Header -->
+                <header class="page-header">
+                    <div class="page-header-content">
+                        <span class="page-eyebrow">Our Collection</span>
+                        <h1>Shop <em>Beautiful</em> Furniture</h1>
+                        <p class="page-description">Discover our curated collection of furniture and decor, designed to transform your space into a place you love.</p>
+                    </div>
+                </header>
+
+                <!-- Filters -->
+                <section class="filters-section">
+                    <div class="filters-container">
+                        <span class="filter-label">Category:</span>
+                        <div class="filter-buttons" id="category-filters">
+                            <button class="filter-btn ${!category || category === 'all' ? 'active' : ''}" data-category="all">All</button>
+                            <button class="filter-btn ${category === 'Living Room' ? 'active' : ''}" data-category="Living Room">Living Room</button>
+                            <button class="filter-btn ${category === 'Bedroom' ? 'active' : ''}" data-category="Bedroom">Bedroom</button>
+                            <button class="filter-btn ${category === 'Dining' ? 'active' : ''}" data-category="Dining">Dining</button>
+                            <button class="filter-btn ${category === 'Office' ? 'active' : ''}" data-category="Office">Office</button>
+                            <button class="filter-btn ${category === 'Outdoor' ? 'active' : ''}" data-category="Outdoor">Outdoor</button>
+                        </div>
+                        <span class="results-count" id="results-count">Loading...</span>
+                    </div>
+                </section>
+
+                <!-- Products Grid -->
+                <section class="products-section">
+                    <div class="products-grid" id="products-grid">
+                        <div class="loading" style="grid-column: 1 / -1;">
+                            <div class="loading-spinner"></div>
+                            <p>Loading products...</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            // Add filter event listeners
+            document.getElementById('category-filters').addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-btn')) {
+                    const cat = e.target.dataset.category;
+                    if (cat === 'all') {
+                        window.location.hash = '#/products';
+                    } else {
+                        window.location.hash = `#/products?category=${encodeURIComponent(cat)}`;
+                    }
+                }
+            });
+
+            // Fetch and render products
+            fetchAndRenderProducts(category);
+        }
+
+        // Fetch and render products
+        async function fetchAndRenderProducts(category) {
+            try {
+                if (allProducts.length === 0) {
+                    const response = await fetch(API_URL);
+                    if (!response.ok) throw new Error('Failed to fetch products');
+                    allProducts = await response.json();
+                }
+
+                const filtered = (!category || category === 'all')
+                    ? allProducts
+                    : allProducts.filter(p => p.category === category);
+
+                renderProductGrid(filtered);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                document.getElementById('products-grid').innerHTML = `
+                    <div class="error-message" style="grid-column: 1 / -1;">
+                        <h2>Unable to load products</h2>
+                        <p>Please try refreshing the page.</p>
+                    </div>
+                `;
+                document.getElementById('results-count').textContent = 'Error loading';
+            }
+        }
+
+        // Render product grid
+        function renderProductGrid(products) {
+            const grid = document.getElementById('products-grid');
+            const count = document.getElementById('results-count');
+
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div class="error-message" style="grid-column: 1 / -1;">
+                        <h2>No products found</h2>
+                        <p>Try selecting a different category.</p>
+                    </div>
+                `;
+                count.textContent = '0 products';
+                return;
+            }
+
+            grid.innerHTML = products.map(createProductCard).join('');
+            count.textContent = `${products.length} product${products.length !== 1 ? 's' : ''}`;
+        }
+
+        // Create product card HTML
+        function createProductCard(product) {
+            const imageUrl = product.imageUrl.replace('https://home-advisor-web.vercel.app/', '');
+
+            return `
+                <a href="#/product/${product.id}" class="product-card">
+                    <div class="product-image-container">
+                        <img src="${imageUrl}" alt="${product.name}" class="product-image"
+                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 400%22%3E%3Crect fill=%22%23F5F0E8%22 width=%22400%22 height=%22400%22/%3E%3Ctext fill=%22%236B6560%22 font-family=%22sans-serif%22 font-size=%2214%22 x=%22200%22 y=%22200%22 text-anchor=%22middle%22%3EImage not available%3C/text%3E%3C/svg%3E'">
+                        ${!product.inStock ? '<span class="product-badge out-of-stock">Out of Stock</span>' : ''}
+                        <span class="product-badge style-tag">${product.style}</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${product.category}</span>
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-price">${formatPrice(product.price)}</p>
+                        <div class="product-rating">
+                            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <span>${product.rating} (${product.reviewCount} reviews)</span>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Render Product Detail Page
+        async function renderProductDetail(productId) {
+            const app = document.getElementById('app');
+
+            app.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading product details...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_URL}/${productId}`);
+                if (!response.ok) throw new Error('Product not found');
+
+                const product = await response.json();
+                document.title = `${product.name} | Home Advisor`;
+
+                const imageUrl = product.imageUrl.replace('https://home-advisor-web.vercel.app/', '');
+
+                app.innerHTML = `
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb">
+                        <div class="breadcrumb-content">
+                            <a href="#/">Home</a>
+                            <span>/</span>
+                            <a href="#/products">Shop</a>
+                            <span>/</span>
+                            <a href="#/products?category=${encodeURIComponent(product.category)}">${product.category}</a>
+                            <span>/</span>
+                            <span class="breadcrumb-current">${product.name}</span>
+                        </div>
+                    </div>
+
+                    <!-- Product Section -->
+                    <section class="product-detail-section">
+                        <div class="product-detail-container">
+                            <!-- Product Image -->
+                            <div class="product-detail-image-section">
+                                <img src="${imageUrl}" alt="${product.name}" class="product-detail-main-image"
+                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 600%22%3E%3Crect fill=%22%23F5F0E8%22 width=%22600%22 height=%22600%22/%3E%3Ctext fill=%22%236B6560%22 font-family=%22sans-serif%22 font-size=%2218%22 x=%22300%22 y=%22300%22 text-anchor=%22middle%22%3EImage not available%3C/text%3E%3C/svg%3E'">
+                                <div class="product-detail-badges">
+                                    <span class="product-detail-badge">${product.style}</span>
+                                    ${!product.inStock ? '<span class="product-detail-badge out-of-stock">Out of Stock</span>' : ''}
+                                </div>
+                            </div>
+
+                            <!-- Product Details -->
+                            <div class="product-details">
+                                <span class="product-category-tag">${product.category}</span>
+                                <h1 class="product-title">${product.name}</h1>
+
+                                <div class="product-rating-row">
+                                    <div class="product-stars">
+                                        ${generateStars(product.rating)}
+                                    </div>
+                                    <span class="product-rating-text">${product.rating} out of 5 (${product.reviewCount} reviews)</span>
+                                </div>
+
+                                <div class="product-price-section">
+                                    <span class="product-detail-price">${formatPrice(product.price)}</span>
+                                    <p class="product-sku">SKU: ${product.sku}</p>
+                                </div>
+
+                                <p class="product-description">${product.description}</p>
+
+                                <div class="stock-status ${product.inStock ? 'in-stock' : 'out-of-stock-status'}">
+                                    <span class="stock-dot"></span>
+                                    <span>${product.inStock ? `In Stock (${product.stockQuantity} available)` : 'Currently Out of Stock'}</span>
+                                </div>
+
+                                <!-- Specifications -->
+                                <div class="product-specs">
+                                    <h3 class="specs-title">Product Specifications</h3>
+                                    <div class="specs-grid">
+                                        <div class="spec-item">
+                                            <span class="spec-label">Dimensions</span>
+                                            <span class="spec-value">${product.dimensions}</span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Material</span>
+                                            <span class="spec-value">${product.material}</span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Color</span>
+                                            <span class="spec-value">${product.color}</span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Style</span>
+                                            <span class="spec-value">${product.style}</span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Room Type</span>
+                                            <span class="spec-value">${product.roomType}</span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Product ID</span>
+                                            <span class="spec-value">${product.id}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="product-actions">
+                                    <button class="btn-primary" ${!product.inStock ? 'disabled' : ''}>
+                                        ${product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                                    </button>
+                                    <button class="btn-secondary" title="Add to Wishlist">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Help Section -->
+                                <div class="help-section">
+                                    <div class="help-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                                        </svg>
+                                    </div>
+                                    <div class="help-text">
+                                        <h4>Need help with this product?</h4>
+                                        <p>Our <a href="#/home" onclick="handleSectionScroll('advisor-section'); return false;">AI Home Advisor</a> can answer questions about dimensions, materials, styling tips, and more.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            } catch (error) {
+                console.error('Error fetching product:', error);
+                app.innerHTML = `
+                    <div class="error-message">
+                        <h2>Product Not Found</h2>
+                        <p>The product you're looking for could not be found.</p>
+                        <a href="#/products">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                            </svg>
+                            Back to Shop
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        // Render FAQ Page
+        function renderFAQ() {
+            document.title = 'FAQs | Home Advisor';
+            const app = document.getElementById('app');
+
+            app.innerHTML = `
+                <!-- Page Header -->
+                <header class="page-header">
+                    <div class="page-header-content">
+                        <span class="page-eyebrow">Customer Support</span>
+                        <h1>Frequently Asked <em>Questions</em></h1>
+                        <p class="page-description">Find answers to common questions about shipping, returns, warranties, and more. Can't find what you're looking for? Our AI Home Advisor is available 24/7.</p>
+                    </div>
+                </header>
+
+                <!-- FAQ Section -->
+                <section class="faq-section">
+                    <div class="faq-container">
+
+                        <!-- Shipping & Delivery -->
+                        <div class="faq-category">
+                            <h2 class="faq-category-title">Shipping & Delivery</h2>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>What are your delivery options and timeframes?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        We offer several delivery options to fit your needs. Standard delivery arrives in 5-7 business days and includes curbside drop-off. Our White Glove delivery service includes room-of-choice placement and professional assembly, typically scheduled within 2-3 weeks depending on your location. For larger items like sofas and beds, White Glove is often required. Delivery is free on orders over $999.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>Do you offer assembly services?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        Yes! Our White Glove delivery service includes professional assembly at no extra charge. Our trained technicians will assemble your furniture, place it in your desired location, and remove all packaging materials. For items already delivered via standard shipping, you can schedule standalone assembly service for a flat fee of $99 per item. Assembly appointments are typically available within 3-5 business days.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Returns & Warranty -->
+                        <div class="faq-category">
+                            <h2 class="faq-category-title">Returns & Warranty</h2>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>What is your return policy?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        We offer a 30-day return window on most items, giving you time to ensure your furniture is the perfect fit. Products must be in original condition with all packaging and tags intact. Custom orders, clearance items, and mattresses have modified return policies due to their personalized nature. Return shipping is free for defective items; a $99 pickup fee applies for other returns. Refunds are processed within 5-7 business days after we receive the item.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>What is your warranty policy?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        All furniture comes with a comprehensive 1-year warranty covering manufacturing defects and craftsmanship issues. Frames and foundations on upholstered pieces are covered for 5 years, reflecting our confidence in their durability. Outdoor furniture includes a 3-year warranty against rust and weather damage when properly maintained. Warranty claims can be filed through your account or by contacting our support team. We'll either repair, replace, or refund based on the situation.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Products & Availability -->
+                        <div class="faq-category">
+                            <h2 class="faq-category-title">Products & Availability</h2>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>How do I check if an item is in stock?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        Real-time availability is displayed on each product page, showing current stock levels and estimated delivery windows. If an item is temporarily out of stock, you can sign up for email notifications to be alerted when it becomes available again. Many items also show estimated restock dates so you can plan accordingly. Our AI Home Advisor can also check availability across our entire catalog instantly.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>Can I order fabric swatches before purchasing?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        Absolutely! We offer free fabric swatches for any upholstered furniture so you can see and feel the material in your own space. Order up to 5 swatches at a time with free standard shipping. Swatches typically arrive within 3-5 business days. Each swatch includes care instructions and fabric composition details. This helps ensure the color and texture match your existing decor before committing to a purchase.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Design Services -->
+                        <div class="faq-category">
+                            <h2 class="faq-category-title">Design Services</h2>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>Do you offer interior design consultations?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        Yes, we provide complimentary design consultations to help you create your perfect space! Choose from virtual consultations via video call, in-store appointments with our design specialists, or submit photos for personalized room planning recommendations. Our designers can help with everything from selecting individual pieces to planning entire room layouts. Sessions typically last 30-45 minutes and include a personalized shopping list tailored to your style and budget.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>Can I visualize furniture in my space before buying?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        Our AR Room Visualizer lets you see furniture in your actual space using your smartphone camera. Simply point your phone where you want to place the item, and you'll see a true-to-scale 3D model. You can also use our digital Mood Board tool to create custom room layouts, save your favorite pieces, and share designs with family or friends. Both tools are free and available on our website and mobile app.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Orders & Payment -->
+                        <div class="faq-category">
+                            <h2 class="faq-category-title">Orders & Payment</h2>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>How can I track my order?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        Once your order ships, you'll receive a tracking link via email and SMS. You can also view real-time order status in your account dashboard, including detailed delivery window estimates and driver location on delivery day. For White Glove deliveries, you'll receive a call 24 hours before to confirm your delivery window. Our AI Home Advisor can also provide instant order status updates anytime.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <h3>What payment options do you offer?</h3>
+                                    <div class="faq-toggle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-content">
+                                        We accept all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, Apple Pay, and Google Pay for your convenience. Financing is available through Affirm with 0% APR for 12 months on purchases over $500, subject to credit approval. Business accounts can apply for net-30 payment terms. Gift cards are also available and can be combined with other payment methods.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- CTA Section -->
+                <section class="cta-section">
+                    <div class="cta-content">
+                        <h2>Still have questions?</h2>
+                        <p>Our AI Home Advisor is available 24/7 to help with product questions, order status, design advice, and more.</p>
+                        <a href="#/home" onclick="handleSectionScroll('advisor-section'); return false;" class="cta-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                            </svg>
+                            Chat with Home Advisor
+                        </a>
+                    </div>
+                </section>
+            `;
+
+            // Add FAQ accordion functionality
+            setTimeout(() => {
+                document.querySelectorAll('.faq-question').forEach(question => {
+                    question.addEventListener('click', () => {
+                        const faqItem = question.parentElement;
+                        faqItem.classList.toggle('active');
+                    });
+                });
+            }, 0);
+        }
+
+        // ==========================================
+        // Utility Functions
+        // ==========================================
+
+        // Format price
+        function formatPrice(price) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2
+            }).format(price);
+        }
+
+        // Generate star rating HTML
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            let html = '';
+
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    html += '<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+                } else {
+                    html += '<svg viewBox="0 0 24 24" class="empty"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+                }
+            }
+
+            return html;
+        }
+
+        // ==========================================
+        // Navigation & Initialization
+        // ==========================================
+
+        // Navigation scroll effect
         const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -918,11 +2416,32 @@
                 console.error('Error launching chat:', err);
             }
         }
+
+        // Listen for hash changes
+        window.addEventListener('hashchange', handleRoute);
+        window.addEventListener('load', handleRoute);
+
+        // Handle clicks on nav links that scroll to sections
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[data-nav]');
+            if (link) {
+                const section = link.dataset.nav;
+                if (section === 'services' || section === 'advisor' || section === 'contact') {
+                    e.preventDefault();
+                    window.location.hash = '#/home';
+                    setTimeout(() => {
+                        handleSectionScroll(section === 'contact' ? 'contact' : section + '-section');
+                    }, 100);
+                }
+            }
+        });
     </script>
+
+    <!-- Salesforce Embedded Messaging -->
     <script type='text/javascript'>
     function initEmbeddedMessaging() {
         try {
-            embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+            embeddedservice_bootstrap.settings.language = 'en_US';
             embeddedservice_bootstrap.init(
                 '00DWA000004eBKD',
                 'HomeAdvisor',
