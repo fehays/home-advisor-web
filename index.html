@@ -479,6 +479,37 @@
             stroke: var(--color-terracotta);
         }
 
+        .advisor-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 3rem;
+            padding: 1.1rem 2.2rem;
+            background: var(--color-terracotta);
+            color: var(--color-warm-white);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .advisor-cta:hover {
+            background: var(--color-terracotta-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(196, 120, 90, 0.4);
+        }
+
+        .advisor-cta svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-warm-white);
+        }
+
         /* Stats Section */
         .stats {
             padding: 6rem 4rem;
@@ -785,6 +816,12 @@
                     <span>Always Available</span>
                 </div>
             </div>
+            <button onclick="launchChat()" class="advisor-cta">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                </svg>
+                Start a Conversation
+            </button>
         </div>
     </section>
 
@@ -865,6 +902,20 @@
                 nav.classList.remove('scrolled');
             }
         });
+
+        // Launch Salesforce Embedded Messaging chat
+        function launchChat() {
+            try {
+                if (typeof embeddedservice_bootstrap !== 'undefined' &&
+                    embeddedservice_bootstrap.utilAPI) {
+                    embeddedservice_bootstrap.utilAPI.launchChat();
+                } else {
+                    console.warn('Chat not ready yet. Please try again in a moment.');
+                }
+            } catch (err) {
+                console.error('Error launching chat:', err);
+            }
+        }
     </script>
     <script type='text/javascript'>
     function initEmbeddedMessaging() {
