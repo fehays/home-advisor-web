@@ -2247,10 +2247,62 @@
         }
 
         // Render FAQ Page
-        function renderFAQ() {
+        // Cache for FAQ content
+        let faqContentCache = null;
+
+        async function renderFAQ() {
             document.title = 'FAQs | Home Advisor';
             const app = document.getElementById('app');
 
+            // Show loading state
+            app.innerHTML = `
+                <div class="loading" style="padding: 10rem 4rem;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading FAQs...</p>
+                </div>
+            `;
+
+            try {
+                // Fetch from static faq.html (use cache if available)
+                if (!faqContentCache) {
+                    const response = await fetch('faq.html');
+                    if (!response.ok) throw new Error('Failed to load FAQ content');
+                    const html = await response.text();
+
+                    // Parse and extract just the #faq-content div
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const faqContent = doc.getElementById('faq-content');
+
+                    if (faqContent) {
+                        faqContentCache = faqContent.innerHTML;
+                    } else {
+                        throw new Error('FAQ content not found');
+                    }
+                }
+
+                app.innerHTML = faqContentCache;
+                initFAQAccordion();
+
+            } catch (error) {
+                console.error('Error loading FAQ:', error);
+                // Fallback to inline content if fetch fails
+                renderFAQFallback();
+            }
+        }
+
+        function initFAQAccordion() {
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const faqItem = question.parentElement;
+                    faqItem.classList.toggle('active');
+                });
+            });
+        }
+
+        // Fallback FAQ content if static file fetch fails
+        function renderFAQFallback() {
+            const app = document.getElementById('app');
             app.innerHTML = `
                 <!-- Page Header -->
                 <header class="page-header">
@@ -2469,14 +2521,7 @@
             `;
 
             // Add FAQ accordion functionality
-            setTimeout(() => {
-                document.querySelectorAll('.faq-question').forEach(question => {
-                    question.addEventListener('click', () => {
-                        const faqItem = question.parentElement;
-                        faqItem.classList.toggle('active');
-                    });
-                });
-            }, 0);
+            initFAQAccordion();
         }
 
         // ==========================================
