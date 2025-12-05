@@ -2548,7 +2548,7 @@
                     console.log('embeddedservice_bootstrap is available');
                     console.log('prechatAPI available:', !!embeddedservice_bootstrap.prechatAPI);
                     console.log('utilAPI available:', !!embeddedservice_bootstrap.utilAPI);
-
+                    embeddedservice_bootstrap.settings.disableStreamingResponses = true;
                     // Set hidden pre-chat fields for product context
                     if (embeddedservice_bootstrap.prechatAPI) {
                         const prechatData = {
