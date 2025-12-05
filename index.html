@@ -2115,6 +2115,8 @@
                 if (!response.ok) throw new Error('Product not found');
 
                 const product = await response.json();
+                // Store product globally for chat context
+                window.currentProduct = product;
                 document.title = `${product.name} | Home Advisor`;
 
                 const imageUrl = product.imageUrl.replace('https://home-advisor-web.vercel.app/', '');
@@ -2598,7 +2600,8 @@
                     if (embeddedservice_bootstrap.prechatAPI) {
                         const prechatData = {
                             'ProductId': productId,
-                            'ProductName': productName
+                            'ProductName': productName,
+                            'ProductInfoJSON': window.currentProduct ? JSON.stringify(window.currentProduct) : '{}'
                         };
                         console.log('Setting hidden pre-chat fields:', prechatData);
                         embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields(prechatData);
