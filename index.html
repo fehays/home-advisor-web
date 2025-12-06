@@ -2598,10 +2598,16 @@
                     embeddedservice_bootstrap.settings.disableStreamingResponses = true;
                     // Set hidden pre-chat fields for product context
                     if (embeddedservice_bootstrap.prechatAPI) {
+                        const product = window.currentProduct || {};
                         const prechatData = {
                             'ProductId': productId,
-                            'ProductName': productName,
-                            'ProductInfoJSON': window.currentProduct ? JSON.stringify(window.currentProduct) : '{}'
+                            'ProductName': product.name || productName,
+                            'ProductDescription': product.description || '',
+                            'ProductCategory': product.category || '',
+                            'ProductStyle': product.style || '',
+                            'ProductMaterial': product.material || '',
+                            'ProductDimensions': product.dimensions || '',
+                            'ProductColor': product.color || ''
                         };
                         console.log('Setting hidden pre-chat fields:', prechatData);
                         embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields(prechatData);
