@@ -2600,14 +2600,14 @@
                     if (embeddedservice_bootstrap.prechatAPI) {
                         const product = window.currentProduct || {};
                         const prechatData = {
-                            'ProductId': productId,
-                            'ProductName': product.name || productName,
-                            'ProductDescription': product.description || '',
-                            'ProductCategory': product.category || '',
-                            'ProductStyle': product.style || '',
-                            'ProductMaterial': product.material || '',
-                            'ProductDimensions': product.dimensions || '',
-                            'ProductColor': product.color || ''
+                            'ProductId': (productId || '').substring(0, 255),
+                            'ProductName': (product.name || productName || '').substring(0, 255),
+                            'ProductDescription': (product.description || '').substring(0, 255),
+                            'ProductCategory': (product.category || '').substring(0, 255),
+                            'ProductStyle': (product.style || '').substring(0, 255),
+                            'ProductMaterial': (product.material || '').substring(0, 255),
+                            'ProductDimensions': (product.dimensions || '').substring(0, 255),
+                            'ProductColor': (product.color || '').substring(0, 255)
                         };
                         console.log('Setting hidden pre-chat fields:', prechatData);
                         embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields(prechatData);
